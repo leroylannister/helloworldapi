@@ -1,10 +1,15 @@
-from flask import Flask
+from fastapi import FastAPI
+from pydantic import BaseModel
+app = FastAPI()
 
-app = Flask(__name__)
+class greetingrequest(BaseModel):
+    name: str 
 
-@app.route('/')
-def hello_world():
-    return "Hello World"
+@app.get("/")
+def helloworld():
+    return "hello world"
 
-if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000)
+@app.post("/")
+def greet(data: greetingrequest)->str:
+    """greets user with name"""
+    return f"greetings {data.name}"
